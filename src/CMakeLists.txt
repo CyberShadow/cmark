@@ -228,3 +228,10 @@ if(CMARK_LIB_FUZZER)
   # needs to link against the C++ runtime. Explicitly link it into cmark-fuzz
   set_target_properties(${FUZZ_HARNESS} PROPERTIES LINK_FLAGS "-lstdc++")
 endif()
+
+find_package(PkgConfig)
+pkg_check_modules(LIBSECCOMP IMPORTED_TARGET libseccomp)
+if(LIBSECCOMP_FOUND)
+  add_definitions(-DHAVE_LIBSECCOMP)
+  target_link_libraries(${PROGRAM} PkgConfig::LIBSECCOMP)
+endif()
